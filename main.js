@@ -14,8 +14,8 @@ const config = require('./config.json')
 // Config File
 const client = new Discord.Client()
 // Added new client for bot.
-const token = config.token
-// Bot token.
+const token = process.env.token;
+// Bot toke
 var core_prefix = config.prefix
 // Bot prefix.
 const ownername = config.ownername
