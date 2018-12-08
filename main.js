@@ -595,9 +595,9 @@ function permcheck(message, perm) {
 
 // Verify System
 client.on('message', (message)=>{
-    if (message.channel.id == "514172033882390551" && message.content == "agree") {
+    if (message.channel.id == "520967371419025409" && message.content == "agree") {
         message.delete();
-        return message.member.addRole(message.guild.roles.find('name', 'Verified'));
+        return message.member.addRole(message.guild.roles.find('name', '【DG Members】'));
     }
 }
 )
