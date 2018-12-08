@@ -1155,7 +1155,6 @@ Sending this message.....
 }
 );
 
-process.stdout("Ran here!");
 
 // Bot ready settings
 client.on('ready', ()=>{
