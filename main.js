@@ -595,9 +595,9 @@ function permcheck(message, perm) {
 
 // Verify System
 client.on('message', (message)=>{
-    if (message.channel.id == "520967371419025409" && message.content == "agree") {
+    if (message.channel.id == "514172033882390551" && message.content == "agree") {
         message.delete();
-        return message.member.addRole(message.guild.roles.find('name', '【DG Members】'));
+        return message.member.addRole(message.guild.roles.find('name', 'Verified'));
     }
 }
 )
@@ -806,13 +806,14 @@ client.on('message', async message=>{
         if (!Object.keys(games).includes(args[0].toLowerCase())) {
           
             args[0] = args.join(" ");
-          console.log(args);
             var game = null;
             Object.keys(games).forEach((x)=>{
                 Object.keys(games[x]).forEach((z)=>{
-                    if (z == args[0].toLowerCase() || games[x][z].title && !!(games[x][z].embed.title.toLowerCase() == args[0].toLowerCase())) {
+                    if (z == args[0].toLowerCase() || games[x][z].title && games[x][z].embed.title.toLowerCase() == args[0].toLowerCase()) {
                         return game = games[x][z];
-                    }
+                    } else {
+						
+					}
                 }
                 )
             }
