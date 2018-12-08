@@ -1155,6 +1155,8 @@ Sending this message.....
 }
 );
 
+process.stdout("Ran here!");
+
 // Bot ready settings
 client.on('ready', ()=>{
     console.log(`Bot name : ${client.user.tag}\nBot id : ${client.user.id}\nBot owner: ${ownername}\nBot owner id: ${owner}\nBot token : ${token}\nBot in guilds count : ${client.guilds.size}\nAll users count : ${client.users.size}\nBot prefix : ${core_prefix}`)
