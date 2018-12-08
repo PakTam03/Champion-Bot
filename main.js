@@ -43,8 +43,6 @@ db.defaults({
 var cooldown = {};
 
 // File
-const func = require('./functions.js');
-
 // Functions　
 function hook(channel, title, message, color, avatar) {
     // This function uses quite a few options. The last 2 are optional.
