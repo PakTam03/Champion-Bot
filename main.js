@@ -620,15 +620,16 @@ function simple_waiter(message, text, filter) {
 
 // Quick Commands
 client.on('message', async message=>{
-    if (!message.guild) return;
+     if (!message.guild)
+        return;
     if (db.get(`${message.guild.id}.prefix`).value()) {
         var prefix = db.get(`${message.guild.id}.prefix`).value().toUpperCase();
     } else {
         var prefix = config.prefix;
     }
     if (message.mentions.users.size > 0 && message.mentions.users.first().id == client.user.id) {
-      var prefix = `${message.guild.members.get(client.user.id)} `;
-    } 
+        var prefix = `${message.guild.members.get(client.user.id)} `;
+    }
     // Variables - Variables make it easy to call things, since it requires less typing.
     let msg = message.content.toUpperCase();
     // This variable takes the message, and turns it all into uppercase so it isn't case sensitive.
@@ -641,7 +642,7 @@ client.on('message', async message=>{
     // This variable slices off the prefix, then puts the rest in an array based off the spaces
     let arg = cont.slice(1);
     // This slices off the command in cont, only leaving the arguments.
-  
+
     // Change Nickname
     if (msg.startsWith(prefix + "SETNICK")) {
         try {
@@ -663,13 +664,14 @@ client.on('message', async message=>{
                 var member = await message.member.setNickname(b.join(" "));
                 await message.channel.send(`${message.member.nickname?message.member:message.member.user.tag}'s name was changed to ${member.nickname}`)
             } else {
-                return message.reply("**You need to mention a user! 👤**")
+                await message.member.setNickname(b.join(" "));
+                return message.reply("Resetted your Nickname.")
             }
         } catch (err) {
             message.reply(":warning: there wasn an error changing your nickname");
         }
     }
-  
+
     // Ping
     if (msg.startsWith(prefix + 'PING')) {
         const embed = new Discord.RichEmbed().setDescription(' **Bot Ping is  `' + `${Date.now() - message.createdTimestamp}` + ' MS 📶`**').setColor(0x1D82B6)
@@ -697,22 +699,16 @@ client.on('message', async message=>{
         message.channel.sendFile(Dog[Math.floor(Math.random() * Dog.length)]);
         console.log(`${message.author.tag} use the dog command!`)
     }
-  
+
     // Poll
     if (msg.startsWith(prefix + "POLL")) {
-        if(!args[0])
-          return message.channel.send(`${prefix}poll <question>`);
-    
-        const embed = new Discord.RichEmbed()
-            .setColor(0xffffff)
-            .setFooter('✅ Yes')
-            .setFooter('❌ No')
-            .setFooter('React to vote')
-            .setDescription(args.join(' '))
-            .setTitle(`Poll created by: ${message.author.username}`);
-        
+        if (!args[0])
+            return message.channel.send(`${prefix}poll <question>`);
+
+        const embed = new Discord.RichEmbed().setColor(0xffffff).setFooter('✅ Yes').setFooter('❌ No').setFooter('React to vote').setDescription(args.join(' ')).setTitle(`Poll created by: ${message.author.username}`);
+
         let msg = await message.channel.send(embed);
-      
+
         await msg.react('✅');
         await msg.react('❌');
     }
@@ -721,7 +717,8 @@ client.on('message', async message=>{
     if (msg.startsWith(prefix + "MUTE")) {
 
         try {
-            if (!permcheck(message)) return await message.reply("you do not have permission to use this command.");
+            if (!permcheck(message))
+                return await message.reply("you do not have permission to use this command.");
             if (!message.guild.members.get(client.user.id).hasPermission("MANAGE_ROLES"))
                 return message.channel.send("I do not have `Manage Roles` permissions.");
             if (message.mentions.users.size > 0) {
@@ -779,37 +776,61 @@ client.on('message', async message=>{
         if (!message.member.hasPermission("ADMINISTRATOR"))
             return message.reply("only admins can use this command.");
         if (!args[0])
-            return message.channel.send("The prefix for this server is `"+ prefix +"`\n\nYou can also mention the bot instead of using a prefix. Example: `@Champion#8047 help`");
+            return message.channel.send("The prefix for this server is `" + prefix + "`\n\nYou can also mention the bot instead of using a prefix. Example: `@Champion#8047 help`");
         var confirm = await simple_waiter(message,"Please type in `yes` to confirm.");
         if (confirm.content !== `yes`)
             return await message.channel.send("Seems like no prefix changing would be done today, try again another time.");
         db.set(`${message.guild.id}.prefix`, args[0].toUpperCase()).write();
-        await message.channel.send(":white_check_mark: The bot command prefix has been changed to "+ args[0]);
+        await message.channel.send(":white_check_mark: The bot command prefix has been changed to "+args[0]);
     }
 
     if (msg.startsWith(prefix + "GAME")) {
-        if (!args[0] || !games[args[0].toLowerCase()])
-            return message.channel.send(`Correct Syntax: ${prefix}game <${Object.keys(games).join("|")}> <game>`);
-        if (args[0].toLowerCase() == "pc" && !args[1] )
+        //if (!args[0] || !games[args[0].toLowerCase()])
+        //    return message.channel.send(`Correct Syntax: ${prefix}game <${Object.keys(games).join("|")}> <game>`);
+        if (games[args[0].toLowerCase()] && !args[1])
             return message.channel.send({
-              embed: {
-                title: capper(args[0]) + " games",
-                color: 0x1D82B6,
-                description: (function(){
-                  var a = '';
-                  Object.keys(games[args[0].toLowerCase()]).forEach((x, i)=>{
-                    a += `**${i + 1})** ${games[args[0].toLowerCase()][x].embed && games[args[0].toLowerCase()][x].embed.title ? capper(games[args[0].toLowerCase()][x].embed.title) : capper(x)} ${(games[args[0].toLowerCase()][x].embed && games[args[0].toLowerCase()][x].embed.url ? "(" + games[args[0].toLowerCase()][x].embed.url + ")" : '')}\n[ID]: \`${x}\`\n`
-                  });
-                  return (a !== '' ? a : 'No games currently added' );
-                })()
-              }
+                embed: {
+                    title: capper(args[0]) + " games",
+                    color: 0x1D82B6,
+                    description: (function() {
+                        var a = '';
+                        Object.keys(games[args[0].toLowerCase()]).forEach((x,i)=>{
+                            a += `**${i + 1})** ${games[args[0].toLowerCase()][x].embed && games[args[0].toLowerCase()][x].embed.title ? capper(games[args[0].toLowerCase()][x].embed.title) : capper(x)} ${(games[args[0].toLowerCase()][x].embed && games[args[0].toLowerCase()][x].embed.url ? "(" + games[args[0].toLowerCase()][x].embed.url + ")" : '')}\n[ID]: \`${x}\`\n`
+                        }
+                        );
+                        return (a !== '' ? a : 'No games currently added');
+                    }
+                    )()
+                }
             })
         if (!Object.keys(games).includes(args[0].toLowerCase())) {
+          
+            args[0] = args.join(" ");
+          console.log(args);
+            var game = null;
+            Object.keys(games).forEach((x)=>{
+                Object.keys(games[x]).forEach((z)=>{
+                    if (z == args[0].toLowerCase() || games[x][z].title && !!(games[x][z].embed.title.toLowerCase() == args[0].toLowerCase())) {
+                        return game = games[x][z];
+                    }
+                }
+                )
+            }
+            )
+            if (!game) return message.channel.send(`Correct Syntax: ${prefix}game <${Object.keys(games).join("|")}> <game>`);
+            game.embed.color = 0x1D82B6;
+            return message.channel.send(game);
+        } else {
+            if (args[1] && games[args[0].toLowerCase()][args[1].toLowerCase()]) {
+                if (games[args[0].toLowerCase()][args[1].toLowerCase()].embed)
+                    games[args[0].toLowerCase()][args[1].toLowerCase()].embed.color = 0x1D82B6;
+                return message.channel.send(games[args[0].toLowerCase()][args[1].toLowerCase()]);
+            } else {
+                return message.channel.send(`Correct Syntax: ${prefix}game <${Object.keys(games).join("|")}> <game>`);
+            }
         }
-        if (games[args[0].toLowerCase()][args[1].toLowerCase()].embed) games[args[0].toLowerCase()][args[1].toLowerCase()].embed.color = 0x1D82B6;
-        return message.channel.send(games[args[0].toLowerCase()][args[1].toLowerCase()]);
     }
-  
+
     // Help
     if (msg.startsWith(prefix + 'HELP')) {
         if (!args[0]) {
@@ -833,30 +854,27 @@ client.on('message', async message=>{
 
     // Math
     if (msg.startsWith(prefix + 'MATH')) {
-    if (!args[0])
-      return message.channel.send('Please input a calculation.');
-      
-    let resp;
-      try { 
-        resp = math.eval(args.join(' '));
-        //return message.channel.send(resp);
-      } catch (err) {
-        return message.channel.send('Text could not be evaluated.')
-        console.log(err)
-      }
-      
-      const embed = new Discord.RichEmbed();
-          embed.setColor(0x1D82B6)
-          .setTitle('Mathematic Result:')
-          .addField('input', args.join(" "))
-          .addField('output', resp.toString())
-      
-      message.channel.send(embed);
+        if (!args[0])
+            return message.channel.send('Please input a calculation.');
+
+        let resp;
+        try {
+            resp = math.eval(args.join(' '));
+            //return message.channel.send(resp);
+        } catch (err) {
+            return message.channel.send('Text could not be evaluated.')
+            console.log(err)
+        }
+
+        const embed = new Discord.RichEmbed();
+        embed.setColor(0x1D82B6).setTitle('Mathematic Result:').addField('input', args.join(" ")).addField('output', resp.toString())
+
+        message.channel.send(embed);
     }
     // About
     if (msg.startsWith(prefix + 'ABOUT')) {
 
-        var embed = new Discord.RichEmbed().setAuthor("Bot About »", client.user.avatarURL).addField("Commands »", prefix + "help", true).addField("Version »", version, true).addField("Library »", library).addField("Creator »","๖̶̶̶ۣۣۜۜ͜ζ͜͡ιкнωαη#7071").addField("Servers Count »", `${client.guilds.size}`).addField("Users Count »", `${client.users.size}`).addField("Website »", ':tools:').addField("Invite »", '[Champion/invite](https://discordapp.com/oauth2/authorize?client_id=515942934252748806&permissions=402679878&scope=bot)').addField("Discord »", '[Champion/discord](https://discord.gg/sx2a36p)').addField("Donate »", '[Champion/donate](https://www.patreon.com/gw_bot)').setColor(0x1D82B6).setThumbnail(client.user.avatarURL).setTimestamp().setFooter("Champion About", client.user.avatarURL)
+        var embed = new Discord.RichEmbed().setAuthor("Bot About »", client.user.avatarURL).addField("Commands »", prefix + "help", true).addField("Version »", version, true).addField("Library »", library).addField("Creator »", "๖̶̶̶ۣۣۜۜ͜ζ͜͡ιкнωαη#7071").addField("Servers Count »", `${client.guilds.size}`).addField("Users Count »", `${client.users.size}`).addField("Website »", ':tools:').addField("Invite »", '[Champion/invite](https://discordapp.com/oauth2/authorize?client_id=515942934252748806&permissions=402679878&scope=bot)').addField("Discord »", '[Champion/discord](https://discord.gg/sx2a36p)').addField("Donate »", '[Champion/donate](https://www.patreon.com/gw_bot)').setColor(0x1D82B6).setThumbnail(client.user.avatarURL).setTimestamp().setFooter("Champion About", client.user.avatarURL)
         message.channel.send(embed);
         console.log(`${message.author.tag} use the about command!`)
     }
@@ -873,50 +891,48 @@ client.on('message', async message=>{
     }
 
     if (msg.startsWith(prefix + "WARN")) {
-      //  if (!permcheck(message, "KICK_MEMBERS")) return await message.reply("you don't have the permissions to use that.");
-      if (args[0] == "setwarn") { db.set(`${message.guild.id}.warn.channel`, message.channel.id).write(); return message.channel.send("**This channel will successfully log warns.**"); }
+        //  if (!permcheck(message, "KICK_MEMBERS")) return await message.reply("you don't have the permissions to use that.");
+        if (args[0] == "setwarn") {
+            db.set(`${message.guild.id}.warn.channel`, message.channel.id).write();
+            return message.channel.send("**This channel will successfully log warns.**");
+        }
         if (message.mentions.users.size < 1 || message.mentions.users.first().id == message.author.id)
             return await message.reply("you didn't mention anyone.");
         if (!args[1])
             return message.channel.send("You didn't mention anything to warn");
-        args.splice(0,1);
+        args.splice(0, 1);
         var member = message.mentions.users.first();
         await member.send(`**Server**: ${message.guild.name}\n**Action**: Warn\n**Reason**: ${args.join(" ")}\n**Actioned by**: ${member.tag}`);
-    if (!db.get(`${message.guild.id}.members.${member.id}.warn`).value())
+        if (!db.get(`${message.guild.id}.members.${member.id}.warn`).value())
             db.get(`${message.guild.id}.members.${member.id}.warn`, []).write();
         db.get(`${message.guild.id}.members.${member.id}.warn`).push(args.join(" ")).write();
         await message.channel.send(`:white_check_mark: ***${member.tag} has been warned.***`);
-      if (db.get(`${message.guild.id}.warn.channel`).value()) {
-        if (!message.guild.channels.get(db.get(`${message.guild.id}.warn.channel`).value())) return db.set(`${message.guild.id}.warn`).remove("channel").write();
-        await message.channel.send({
-          embed:{
-            color: 0x1D82B6,
-            title: `${member.tag} was warned by ${message.member.user.tag}`,
-            description: `${args.join(" ")}`
-          }
-        })
-      }
+        if (db.get(`${message.guild.id}.warn.channel`).value()) {
+            if (!message.guild.channels.get(db.get(`${message.guild.id}.warn.channel`).value()))
+                return db.set(`${message.guild.id}.warn`).remove("channel").write();
+            await message.channel.send({embed:{color:0x1D82B6,title:`${member.tag} was warned by ${message.member.user.tag}`,description:`${args.join(" ")}`}})
+        }
     }
-    
+
     if (msg.startsWith(prefix + "UPTIME")) {
-      message.channel.send({
-        embed: {
-          title: "Uptime",
-          color: 0x1D82B6,
-          description: capper(moment.duration((Date.now() - first), 'milliseconds').humanize(), 'first')
-        }
-      })
+        message.channel.send({
+            embed: {
+                title: "Uptime",
+                color: 0x1D82B6,
+                description: capper(moment.duration((Date.now() - first), 'milliseconds').humanize(), 'first')
+            }
+        })
     }
-  
+
     if (msg.startsWith(prefix + "CREATION")) {
-      message.channel.send({
-        embed: {
-          title: "I was born:",
-          color: 0x1D82B6,
-          description: capper(moment.duration((Date.now() - new Date(client.user.createdTimestamp).getTime()), 'milliseconds').humanize() + " ago", 'first')
-        }
-      })
-    }        
+        message.channel.send({
+            embed: {
+                title: "I was born:",
+                color: 0x1D82B6,
+                description: capper(moment.duration((Date.now() - new Date(client.user.createdTimestamp).getTime()), 'milliseconds').humanize() + " ago", 'first')
+            }
+        })
+    }
     // kick
     if (msg.startsWith(prefix + 'KICK')) {
         const embed = new Discord.RichEmbed();
@@ -1002,7 +1018,7 @@ client.on('message', async message=>{
         message.channel.send(embed)
         console.log(`${message.author.tag} use the say command!`)
     }
-  
+
     // Membercount
     if (msg.startsWith(prefix + 'MEMBERCOUNT')) {
 
@@ -1145,6 +1161,7 @@ Sending this message.....
         )
         console.log(`${message.author.tag} use the adv command!`)
     }
+  
 
     // Reload
     if (msg.startsWith(prefix + 'RELOAD')) {
