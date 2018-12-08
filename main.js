@@ -1148,7 +1148,7 @@ Sending this message.....
 
     // Reload
     if (msg.startsWith(prefix + 'RELOAD')) {
-        const embed = new Discord.RichEmbed().setDescription('**`Reload Any Commands....`**').setColor(0x1D82B6)
+        const embed = new Discord.RichEmbed().setDescription('**`Heroku reloaded...`**').setColor(0x1D82B6)
         message.channel.send(embed);
         console.log(`${message.author.tag} use the ping command!`)
     }
