@@ -597,7 +597,7 @@ function permcheck(message, perm) {
 client.on('message', (message)=>{
     if (message.channel.id == "520970643873988608" && message.content == "agree") {
         message.delete();
-        return message.member.addRole(message.guild.roles.find('name', 'Pokemon'));
+        return message.member.addRole(message.guild.roles.find('name', '【Zeroz Army】'));
     }
 }
 )
