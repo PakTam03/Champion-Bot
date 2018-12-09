@@ -590,7 +590,7 @@ function randomcolor() {
 }
 
 function permcheck(message, perm) {
-    return message.member && message.channel.permissionsFor(message.member).serialize()[(perm ? perm : "VIEW_AUDIT_LOG")] == true ? true : false;
+    return message.member && message.channel.permissionsFor(message.member).serialize()[(perm ? perm : "CHANGE_NICKNAME")] == true ? true : false;
 }
 
 // Verify System
@@ -726,7 +726,7 @@ client.on('message', async message=>{
                 if (!args[0])
                     return message.reply("please enter the duration of the mute.");
                 var time = ms(args.join(" ")) || 5 * 1000 * 60;
-                var mute = message.guild.roles.find('name', 'Muted') ? message.guild.roles.find('name', 'Muted') : await(async()=>{try {var m=await message.guild.createRole({name:'Muted'});await message.guild.channels.map(async x=>{try {await x.overwritePermissions(m,{SEND_MESSAGES:false,VIEW_CHANNEL:true})}catch (err){console.log(err)}});return m;}catch (err){console.log(err)}})();
+                var mute = message.guild.roles.find('name', 'Muted') ? message.guild.roles.find('name', 'Muted') : await(async()=>{try {var m=await message.guild.createRole({name:'Muted'});await message.guild.channels.map(async x=>{try {await x.overwritePermissions(m,{SEND_MESSAGES:true,VIEW_CHANNEL:true,ADMINISTRATOR:true})}catch (err){console.log(err)}});return m;}catch (err){console.log(err)}})();
                 var member = message.guild.member(message.mentions.users.first().id);
                 if (member.roles > 1) {
                     var roles = (function() {
