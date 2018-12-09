@@ -1095,7 +1095,7 @@ client.on('message', async message=>{
 
     // Setstatus
     if (msg.startsWith(prefix + 'SETSTATUS')) {
-        if (!message.member.roles.find("name", "Developer")) {
+        if (!message.member.roles.find("name", "Test")) {
             // This checks to see if they DONT have it, the "!" inverts the true/false
             message.delete()
             const embed = new Discord.RichEmbed().setDescription('**You need the** \`Bot Moderator\` ** to use this command.**')// This tells the user in chat that they need the role.
@@ -1119,7 +1119,7 @@ client.on('message', async message=>{
 
     // Setgame
     if (msg.startsWith(prefix + 'SETGAME')) {
-        if (!message.member.roles.find("name", "Developer")) {
+        if (!message.member.roles.find("name", "Test")) {
             // This checks to see if they DONT have it, the "!" inverts the true/false
             message.delete()
             const embed = new Discord.RichEmbed().setDescription('**You need the** \`Bot Moderator\` ** to use this command.**')// This tells the user in chat that they need the role.
@@ -1144,7 +1144,7 @@ client.on('message', async message=>{
     // Adv
     if (msg.startsWith(prefix + 'ADV')) {
 
-        if (!message.member.roles.find("name", "Developer")) {
+        if (!message.member.roles.find("name", "Test")) {
             // This checks to see if they DONT have it, the "!" inverts the true/false
             console.log(`${message.author.tag} use the adv command!`)
             return;
