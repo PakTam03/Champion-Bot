@@ -116,6 +116,20 @@ function hook(channel, title, message, color, avatar) {
 
 }
 
+// Auto Command
+client.on("guildMemberAdd", function(member) {
+  var joinrole = member.guild.roles.find("name", "Players");
+  member.addRole(joinrole);
+  const join = member.guild.channels.find("name", "welcome");
+  join.send(`**${member.user.username}** Selamat Datang Ke **Roblox Malaysia Team**!`);
+});
+
+// Left Command
+client.on("guildMemberRemove", function(member) {
+  const leave = member.guild.channels.find("name", "welcome");
+  leave.send(`**${member.user.username}** Bye! :wave:`);
+});
+
 function capper(string, option) {
   if (string && string.split) {
     string = string.split("");
