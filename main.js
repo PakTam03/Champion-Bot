@@ -280,7 +280,7 @@ client.on('message', async message=>{
         if (!message.member.hasPermission("ADMINISTRATOR"))
             return message.reply("only admins can use this command.");
         if (!args[0])
-            return message.channel.send("The prefix for this server is `" + prefix + "`\n\nYou can also mention the bot instead of using a prefix. Example: `@Champion#8047 help`");
+            return message.channel.send("The prefix for this server is `" + prefix);
         var confirm = await simple_waiter(message,"Please type in `yes` to confirm.");
         if (confirm.content !== `yes`)
             return await message.channel.send("Seems like no prefix changing would be done today, try again another time.");
@@ -291,7 +291,7 @@ client.on('message', async message=>{
     // Help
     if (msg.startsWith(prefix + 'HELP')) {
         if (!args[0]) {
-            var embed = new Discord.RichEmbed().setAuthor('Champion Commands').addField('**__Help Command__**', '**Help [command]**:  provides help for a command').addField('**__Misc__** »', '**Roll**: Roll the dice.\n**Userinfo**: Get user informations.\n**Serverinfo**: Get server info/stats.\n**Membercount**: Get the server member count.').addField('**__Manager__** »', '~~**listmods**: List moderators~~ :tools:\n**Prefix**: Set prefix for server.\n**Setnick**: Change the nickname of a user.\n**Purge**: Delete a number of messages from a channel.').addField('**__Info__** »', '**About**: Get bot info').addField('**__Moderator__** »', '**Ban**: Ban a member.\n**Kick**: Kick a member.\n**Warn**: Warn a member.\n**Mute**: Mute a member so they cannot type or speak, time limit in minutes.').addField('**__Fun__** »', '**Cat**: Find some cute cat pictures.\n**Dog**: Find some cute dog pictures.\n**Weather**: Get the forecast information for a location.').setColor(0x1D82B6).setThumbnail('https://images-ext-2.discordapp.net/external/L_1jxUimTurAFBToL11TK_LhYfHNDOeCt3GGCg5OwLw/http/i.imgur.com/S8WFdPc.png?width=80&height=80')
+            var embed = new Discord.RichEmbed().setAuthor('RMT Commands').addField('**Ping**: Pong!\n**Say**: Say to current channel\n**Membercount**: Check how many members on the server\n**Prefix**: Change bot prefix\n**Warn**: Warning users\n**Kick**: Kick users\n**Ban**: Ban users\n**Mute**: Mute users').setColor(0x1D82B6).setThumbnail('https://images-ext-2.discordapp.net/external/L_1jxUimTurAFBToL11TK_LhYfHNDOeCt3GGCg5OwLw/http/i.imgur.com/S8WFdPc.png?width=80&height=80')
             message.author.send({
                 embed
             });
