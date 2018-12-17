@@ -212,7 +212,7 @@ client.on('message', async message=>{
 
     // Ping
     if (msg.startsWith(prefix + 'PING')) {
-        const embed = new Discord.RichEmbed().setDescription(' **Bot Ping is  `' + `${Date.now() - message.createdTimestamp}` + ' MS 📶`**').setColor(0x1D82B6)
+        const embed = new Discord.RichEmbed().setDescription(' **:ping_pong: Pong! `' + `${Date.now() - message.createdTimestamp}` + 'ms`').setColor(0xFF0000)
         message.channel.send(embed);
         console.log(`${message.author.tag} use the ping command!`)
     }
