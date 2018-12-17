@@ -291,7 +291,7 @@ client.on('message', async message=>{
     // Help
     if (msg.startsWith(prefix + 'HELP')) {
         if (!args[0]) {
-            var embed = new Discord.RichEmbed().setAuthor('RMT Commands').addField('**Ping**: Pong!\n**Say**: Say to current channel\n**Membercount**: Check how many members on the server\n**Prefix**: Change bot prefix\n**Warn**: Warning users\n**Kick**: Kick users\n**Ban**: Ban users\n**Mute**: Mute users').setColor(0x1D82B6).setThumbnail('https://images-ext-2.discordapp.net/external/L_1jxUimTurAFBToL11TK_LhYfHNDOeCt3GGCg5OwLw/http/i.imgur.com/S8WFdPc.png?width=80&height=80')
+            var embed = new Discord.RichEmbed().setAuthor('RMT Commands').addField('**Ping**: Pong!.\n**Say**: Say to current channel.\n**Membercount**: Check how many members on the server.\n**Prefix**: Change bot prefix.\n**Warn**: Warning users.\n**Kick**: Kick users.\n**Ban**: Ban users.\n**Mute**: Mute users.').setColor(0x1D82B6).setThumbnail('https://images-ext-2.discordapp.net/external/L_1jxUimTurAFBToL11TK_LhYfHNDOeCt3GGCg5OwLw/http/i.imgur.com/S8WFdPc.png?width=80&height=80')
             message.author.send({
                 embed
             });
