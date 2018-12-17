@@ -295,14 +295,7 @@ client.on('message', async message=>{
             message.author.send({
                 embed
             });
-            message.channel.send({
-                embed: {
 
-                    color: 0x1D82B6,
-                    description: `📧 | All Commands is send for your **DM**!`
-
-                }
-            })
             console.log(`${message.author.tag} use the help command!`)
         } else if (Object.keys(help).includes(args[0].toLowerCase())) {
             await message.channel.send({embed:help[args[0].toLowerCase()]});
